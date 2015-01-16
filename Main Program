@@ -1,0 +1,206 @@
+//Below are my includes and namespaces
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//Below are the variables that I created for this program
+
+int shotgunBullet = 20;
+int shotgunCartridge = 0;
+int pistolBullet = 40;
+int pistolCartridge = 4;
+int food = 100;
+int myLife = 100;
+int bossLife = 200;
+int impLife = 30;
+
+// Below are the strings that I created for this program
+
+string fight;
+string gunFight;
+string enter;
+string play;
+string gunChoice;
+
+//Below are my functions, or as I like to call them, subfunctions
+
+void shootShotgun()
+{
+    shotgunBullet -=1;
+    
+    if (shotgunBullet = 0)
+    {
+        shotgunBullet = 20;
+        shotgunCartridge -=1;
+    }
+}
+
+void shootPistol()
+{
+    pistolBullet -=1;
+    
+    if (pistolBullet = 0)
+    {
+        pistolBullet = 40;
+        pistolCartridge -= 1;
+    }
+}
+
+void shotgunImp()
+{
+    impLife -= 20;
+    shootShotgun();
+}
+
+void shotgunBoss()
+{
+    bossLife -= 20;
+    shootShotgun();
+}
+
+void pistolImp()
+{
+    impLife -= 10;
+    shootPistol();
+}
+
+void pistolBoss()
+{
+    bossLife -= 10;
+    shootPistol();
+}
+
+void bossAttack()
+{
+    cout << "It is now the bosses turn to attack!" << endl;
+    cout << "Accept?" << endl;
+    cin >> enter;
+    
+    if (enter == "yes", "yup", "Yes", "Yup")
+    {
+       myLife -= 10;
+       cout << "Your health has been reduced to " << myLife << endl;
+    }
+}
+
+void impAttack()
+{
+    cout << "It is now the imps turn to attack!" << endl;
+    cout << "Accept?" << endl;
+    cin >> enter;
+
+    if (enter == "yes", "yup", "Yes", "Yup")
+    {
+       myLife -= 5;
+       cout << "Your health has been reduced to " << myLife << endl;
+    }
+}
+    
+void impEncounter()
+{
+    cout << "You have encountered an imp! It is at 30 health!" << endl;
+}
+
+void bossEncounter()
+{
+    cout << "You have encountered a boss! It is at 200 health!" << endl;
+}
+
+void chooseGun()
+{
+    cout << "Will you use your shotgun or you pistol?" << endl;
+    cout << "Your shotgun has " << shotgunBullet << " bullets left, with " << shotgunCartridge << " cartridges left." << endl;
+    cout << "Your pistol has " << pistolBullet << " bullets left, with " << pistolCartridge << " cartridges left." << endl;
+    cin >> gunChoice;
+    
+    if (gunChoice == "Pistol", "pistol")
+    {
+        pistolBoss();
+    }
+    
+    if (gunChoice == "Shotgun", "shotgun")
+    {
+        shotgunBoss();
+    }
+}  
+
+void endBattle()
+{
+    bossLife -= 200;
+}
+
+void runAway()
+{
+    myLife -= 10;
+    cout << "You have run away, but you still took damage. You are now at " << myLife << " health." << endl;
+    endBattle();
+}
+
+void eat()
+{
+    food -= 20;
+    myLife += 50;
+    cout << "Your health is now at " << myLife << " health, and you have " << food << " food left." << endl;
+}
+
+void myTurn()
+{
+    cout << "It is your turn. Will you fight, eat, or run?" << endl;
+    cin >> fight;
+    
+    if (fight == "Run", "run")
+    {
+        runAway();
+    }
+    
+    else if (fight == "Fight", "fight")
+    {
+        chooseGun();
+    }
+    
+    else if (fight == "Eat", "eat")
+    {
+        eat();
+    }
+}
+
+void totalBossTurn()
+{
+    myTurn();
+    bossAttack();
+}
+
+void totalImpTurn()
+{
+    myTurn();
+    impAttack();
+}
+
+void gameOver()
+{
+    cout << "You have 0 life remaining. You are now dead." << endl;
+    cout << "GAME OVER!" << endl;
+    cout << "Play again?" << endl;
+    cin >> play;
+}
+
+//Below is the initial main function where the program is actually executed
+
+int main()
+{
+    bossEncounter();
+    
+    while (bossLife > 0)
+    {
+        totalBossTurn();
+        
+        if (myLife == 0)
+        {
+            gameOver();
+        }
+    }
+      
+}
+    
