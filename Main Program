@@ -20,7 +20,6 @@ int money;
 int gunChoice;
 int enemyType;
 int spoils;
-int action;
 int shopChoice;
 int bulletChoice;
 int weaponChoice;
@@ -33,6 +32,8 @@ int foodChoice;
 
 string answer;
 string newLife;
+string action;
+
 
 // Below are my booleans
 
@@ -129,24 +130,30 @@ void impAttack()
 void chooseGun()
 {
     cout << "Will you use your shotgun or you pistol?" << endl;
-    cout << "Press 1 for shotgun and 2 for pistol." << endl;
     cout << "Your shotgun has " << shotgunBullet << " bullets left" << endl;
     cout << "Your pistol has " << pistolBullet << " bullets left" << endl;
+    weapon_1:
     cin >> gunChoice;
     
-   switch (gunChoice)
+    if(gunChoice != "shotgun" && gunChoice != "pistol")
     {
-        case 1:
+        cout << "That is not a valid weapon. Please try again." << endl;
+        goto weapon_1;
+    }
+    
+    else if (gunChoice == "shotgun")
+    {
         shootShotgun();
-        break;
-        
-        case 2:
+    }
+    
+    else if (gunChoice == "pistol")
+    {
         shootPistol();
-        break;
-        
-        default:
-        cout << "I did specify 'shotgun or pistol,' so...... you forfeited your turn." << endl;
-        break;
+    }
+    
+    else
+    {
+        cout << "That is not a valid weapon. Please try again." << endl;
     }
 } 
 
@@ -255,7 +262,7 @@ void visitShop()
             }
             
             case 9:
-            goto menu_2;
+            goto menu_1;
         }
         
         case 2:
@@ -296,32 +303,77 @@ void visitShop()
         case 3:
         menu_6:
         cout << "You have " << money << " gold coins." << endl;
-        cout << "The pistol upgrade costs 1000 gold coins. The shotgun upgrade costs 200 coins." << cout;
+        cout << "The pistol upgrade costs 1000 gold coins. The shotgun upgrade costs 200 coins." << endl;
         cout << "Pistol upgrade is 4, shotgun upgrade is 5. To leave the current menu, press 9." << endl;
         
-        if (broadsword = true)
+        if (broadsword == true)
         {
             cout << "The upgrade for the broadsword costs 5000 gold coins. Press 1 to buy it." << endl;
         }
         
-        if (shield = true)
+        if (shield == true)
         {
             cout << "The upgrade for the shield costs 3000 gold coins. Press 2 to buy it." << endl;
         }
         
-        if (knife = true)
+        if (knife == true)
         {
             cout << "The upgrade for the knife costs 2000 gold coins. Press 3 to buy it." << endl;
         }
+        
+        switch(weaponUpgradeChoice)
+        {
+            case 1:
+            broadswordUpgrade = true;
+            money -= 5000;
+            goto menu_6;
             
-        
-        
+            case 2:
+            shieldUpgrade = true;
+            money -= 3000;
+            goto menu_6;
+            
+            case 3:
+            knifeUpgrade = true;
+            money -= 2000;
+            goto menu_6;
+            
+            case 9:
+            goto menu_1;
+            
+            default:
+            cout << "That key is not assigned to anything." << endl;
+            goto menu_6;
+        }
         
         case 4:
-        
+        menu_7:
         cout << "You have " << money << " gold coins." << endl;
         cout << "A broadsword is 3000 gold coins. A shield is 1500 gold coins. A knife is 1000 gold coins." << endl;
         cout << "Broadsword is 1. Shield is 2. Knife is 3. To leave the current menu, press 9." << endl;
+        cin >> weaponChoice;
+        
+        switch(weaponChoice)
+        {
+            case 1:
+            broadsword = true;
+            money -= 3000;
+            goto menu_7;
+            
+            case 2:
+            shield = true;
+            money -= 1500;
+            goto menu_7;
+            
+            case 3:
+            knife = true;
+            money -= 1000;
+            goto menu_7;
+            
+            case 9:
+            goto menu_1;
+            
+        }
     }
 }
         
@@ -329,70 +381,95 @@ void myTurn()
 {
     if (money <= 500)
     {
-        cout << "It is your turn. Will you fight, eat, or run?" << endl;
-        cout << "Fight is 1. Eat is 2. Run is 3." << endl;
+        cout << "It is your turn. " << endl;
+        cout << "Commands are fight, eat, and run." << endl;
+        action_1:
         cin >> action;
     
-        switch (action)
+        if(action != "fight" && action != "eat" && action != "run" && action != "gold")
         {
-            case 1:
-            chooseGun();
-            break;
-        
-            case 2:
-            eat();
-            break;
-        
-            case 3:
-            runAway();
-            break;
-        
-            default:
-            cout << "That is not a valid action. You have forfeited your turn." << endl;
-            break;
+            cout << "That is not a valid action. Please try again." << endl;
+            goto action_1;
         }
+        
+            if (action == "fight")
+            {
+                chooseGun();
+            }
+            
+            else if (action == "eat")
+            {
+                eat();
+            }
+            
+            else if (action == "run")
+            {
+                runAway();
+            }
+            
+            else if (action == "gold")
+            {
+                cout << "You have " << money << " gold coins." << endl;
+            }
+            
+            else 
+            {
+                cout << "That is not a valid action. Please try again." << endl;
+                goto action_1;
+            }
     }
     
     else if (money >= 500)
     {
-        cout << "It is your turn. Will you fight, eat, run, or visit the shop?" << endl;
-        cout << "Fight is 1. Eat is 2. Run is 3. Shop is 4" << endl;
+        cout << "It is your turn. " << endl;
+        cout << "Commands are fight, eat, shop, and run." << endl;
+        action_2:
         cin >> action;
     
-        switch (action)
-        {
-            case 1:
-            chooseGun();
-            break;
+        if(action != "fight" && action != "eat" && action != "run" && action != "gold" && action != "shop")
+        cout << "That is not a valid action. Please try again." << endl;
+        goto action_2;
         
-            case 2:
-            eat();
-            break;
-        
-            case 3:
-            runAway();
-            break;
+            if (action == "fight")
+            {
+                chooseGun();
+            }
             
-            case 4:
-            visitShop();
-            break;
-        
-            default:
-            cout << "That is not a valid action. You have forfeited your turn." << endl;
-            break;
+            else if (action == "eat")
+            {
+                eat();
+            }
+            
+            else if (action == "run")
+            {
+                runAway();
+            }
+            
+            else if (action == "gold")
+            {
+                cout << "You have " << money << " gold coins." << endl;
+            }
+            
+            else if (action == "shop")
+            {
+                visitShop();
+            }
+            
+            else 
+            {
+                cout << "That is not a valid action. Please try again." << endl;
+                goto action_2;
+            }
         }
     }   
-    
-}
 
 void spoilsOfWar()
 {
     srand(time(NULL));                                          
-    int spoils = rand() % 4 + 0;
+    int spoils = rand() % 3 + 1;
         
     switch (spoils)
     {
-        
         case 1:
         money += 5*(enemyType);
         cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
@@ -456,12 +533,14 @@ void fightSequence()
     
     if (bossLife <= 0)
     {
+        spoilsOfWar();
         enemyPicker();
         goto redo;
     }
     
     if (impLife <= 0)
     {
+        spoilsOfWar();
         enemyPicker();
         goto redo;
     }
